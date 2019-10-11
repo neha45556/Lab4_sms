@@ -26,14 +26,14 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-test "PINA: 0x01, 0x00 => PORTB: 02, LedState: next_wait"
+test "PINA: 0x01, 0x00 => PORTB: 02, LedState: wait2"
 set LedState = init
 setPINA 0x01
 continue 2
 setPINA 0x00
 continue 2
 expectPORTB 0x02
-expect LedState next_wait
+expect LedState wait2
 checkResult
 
 # Report on how many tests passed/tests ran
