@@ -33,7 +33,49 @@ int main(void) {
                 }
                 break;
             case on1:
-                if((PINA & 0x01) == 0
+                if((PINA & 0x01) == 0){
+                    LedState = wait2;
+                }
+                else{
+                    LedState = on1;
+                }
+                break;
+            case wait2:
+                if((PINA & 0x01) == 1){
+                    LedState = on2;
+                }
+                else{
+                    LedState = wait2;
+                }
+                break;
+            case on2:
+                if((PINA & 0x01) == 0){
+                    LedState = wait1;
+                }
+                else{
+                    LedState = on2;
+                }
+                break;
+        }
+        switch(LedState){
+            case init:
+                PINB = 0x01;
+                break;
+            case wait1:
+                PINB = 0x01;
+                break;
+            case on1:
+                PINB = 0x02;
+                break;
+            case wait2:
+                PINB = 0x02;
+                break;
+            case on2:
+                PINB = 0x01;
+                break;
+        }
+        
+                    
                 
                 
         
