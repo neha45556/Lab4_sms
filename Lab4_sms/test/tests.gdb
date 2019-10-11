@@ -27,7 +27,7 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 test "PINA: 0x01, 0x00 => PORTB: 02, LedState: next_wait"
-set state = init
+set LedState = init
 setPINA 0x01
 continue 2
 setPINA 0x00
