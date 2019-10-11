@@ -17,7 +17,7 @@ int main(void) {
     DDRA = 0x00; PORTA = 0xFF;
     DDRB = 0xFF; PORTB = 0x00;
     enum LedStates { init, wait1, wait2, on1, on2} LedState ;
-
+    LedState = init;
     /* Insert your solution below */
     while (1) {
         switch(LedState){
