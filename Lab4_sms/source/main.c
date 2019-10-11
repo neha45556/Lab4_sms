@@ -62,24 +62,17 @@ int main(void) {
                 PINB = 0x01;
                 break;
             case wait1:
-                PINB = 0x01;
                 break;
             case on1:
                 PINB = 0x02;
                 break;
             case wait2:
-                PINB = 0x02;
                 break;
             case on2:
                 PINB = 0x01;
                 break;
         }
-        
-                    
-                
-                
-        
-        
+     
     }
     return 1;
 }
