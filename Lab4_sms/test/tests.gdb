@@ -49,17 +49,7 @@ expect state INIT
 checkResult
 
 
-test "PINA: 0x00, 0x01, 0x00 => PORTB: 0, state = STEP_2"
-set state = START
-setPINA 0x00
-continue 2
-setPINA 0x01
-continue 2
-setPINA 0x00
-continue 2
-expectPORTB 0
-expect state STEP_2
-checkResult
+
 
 test "PINA: 0x00 => PORTB: 0, state = OPEN"
 set state = STEP_3
