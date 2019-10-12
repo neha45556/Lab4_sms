@@ -12,67 +12,72 @@
 #include "simAVRHeader.h"
 #endif
 
+	enum STATES { START, INIT, INCREMENT, RESET, DECREMENT } state;
+	unsigned char holder = 0x00;
+
+void tick() {
+switch(state) {
+case START:
+state = INIT;
+break;
+case INIT:
+if (PINA == 0) {
+state = RESET;
+} else if (PINA == 1) {
+state = INCREMENT;
+} else if (PINA == 2) {
+state = DECREMENT;
+} else {
+state = INIT;
+}
+break;
+case INCREMENT:
+state = INIT;
+break;
+case RESET:
+state = INIT;
+break;
+case DECREMENT:
+state = INIT;
+break;
+}
+
+switch(state) {
+case START:
+break;
+case INIT:
+break;
+case INCREMENT:
+if (holder < 9) {
+holder++;
+}
+break;
+case RESET:
+holder = 0;
+break;
+case DECREMENT:
+if (holder > 0) {
+holder--;
+}
+break;
+}
+
+
+
+}
+
 int main(void) {
     /* Insert DDR and PORT initializations */
-    DDRA = 0x00; PORTA = 0xFF;
-    DDRB = 0xFF; PORTB = 0x00;
-    enum LedStates { init, wait1, wait2, on1, on2} LedState ;
-    LedState = init;
-    /* Insert your solution below */
+DDRA = 0x00; DDRC = 0xFF; PORTA = 0xFF; PORTC = 0x00;
+state = START;
+holder = 7;
     while (1) {
-        switch(LedState){
-            case init:
-                LedState = wait1;
-                break;
-            case wait1:
-                if((PINA & 0x01) == 1){
-                    LedState = on1;
-                }
-                else{
-                    LedState = wait1;
-                }
-                break;
-            case on1:
-                if((PINA & 0x01) == 0){
-                    LedState = wait2;
-                }
-                else{
-                    LedState = on1;
-                }
-                break;
-            case wait2:
-                if((PINA & 0x01) == 1){
-                    LedState = on2;
-                }
-                else{
-                    LedState = wait2;
-                }
-                break;
-            case on2:
-                if((PINA & 0x01) == 0){
-                    LedState = wait1;
-                }
-                else{
-                    LedState = on2;
-                }
-                break;
-        }
-        switch(LedState){
-            case init:
-                PINB = 0x01;
-                break;
-            case wait1:
-                break;
-            case on1:
-                PINB = 0x02;
-                break;
-            case wait2:
-                break;
-            case on2:
-                PINB = 0x01;
-                break;
-        }
-     
+//	holder = 7;
+	tick();
+	PORTC = holder;
     }
     return 1;
 }
+
+
+
