@@ -48,16 +48,6 @@ expectPORTB 0
 expect state INIT
 checkResult
 
-test "PINA: 0x00, 0x01 => PORTB: 0, state = STEP_1"
-set state = START
-setPINA 0x00
-continue 2
-setPINA 0x01
-continue 2
-expectPORTB 0
-expect state STEP_1
-checkResult
-
 
 test "PINA: 0x00, 0x01, 0x00 => PORTB: 0, state = STEP_2"
 set state = START
@@ -77,15 +67,6 @@ setPINA 0x00
 continue 2
 expectPORTB 0x01
 expect state OPEN
-checkResult
-
-
-test "PINA: 0x80 => PORTB: 0, state = INIT"
-set state = OPEN
-setPINA 0x80
-continue 2
-expectPORTB 0x00
-expect state INIT
 checkResult
 
 
