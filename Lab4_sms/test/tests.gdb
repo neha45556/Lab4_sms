@@ -47,20 +47,6 @@ expect LedState wait2
 checkResult
 
 
-test "PINA: 0x01, 0x00, 0x01, 0x00 => PORTB: 02, LedState: wait1"
-set LedState = init
-setPINA 0x01
-continue 2
-setPINA 0x00
-continue 2
-setPINA 0x01
-continue 2
-setPINA 0x00
-continue 2
-expectPORTB 0x01
-expect LedState wait1
-checkResult
-
 
 test "PINA: 0x01, 0x00, 0x01, 0x00, 0x01, 0x00 => PORTB: 02, LedState: wait2"
 set LedState = init
