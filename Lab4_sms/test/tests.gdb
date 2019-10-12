@@ -26,39 +26,71 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-# Example test:
-test "PINA: 0x00, PINB: 0x00 => PORTC: 0"
-# Set inputs
-setPINA 0x00
-setPINB 0x00
-# Continue for several ticks
-continue 2
-# Set expect values
-expectPORTC 0
-# Check pass/fail
-checkResult
 
-# Add tests below
-
-test "PINA: 0x00 => PORTB: 0, state = INIT"
-set state = START
+test "PINA: 0x00 => PORTB: 0, state = WAIT"
+set state = INIT
 setPINA 0x00
 continue 2
 expectPORTB 0
-expect state INIT
+expect state WAIT
+checkResult
+
+test "PINA: 0x00, 0x04 => PORTB: 0, state = PRESS_P"
+set state = INIT
+setPINA 0x00
+continue 2
+setPINA 0x04
+continue 2
+expectPORTB 0
+expect state PRESS_P
 checkResult
 
 
+test "PINA: 0x00, 0x01, 0x00 => PORTB: 0, state = RELEASE_P"
+set state = INIT
+setPINA 0x00
+continue 2
+setPINA 0x04
+continue 2
+setPINA 0x00
+continue 2
+expectPORTB 0
+expect state RELEASE_P
+checkResult
+
+test "PINA: 0x01, 0x00, 0x02 => PORTB: 1, state = OPEN"
+set state = INIT
+setPINA 0x00
+continue 2
+setPINA 0x04
+continue 2
+setPINA 0x00
+continue 2
+setPINA 0x02
+continue 2
+expectPORTB 1
+expect state OPEN
+checkResult
 
 
-test "PINA: 0x00 => PORTB: 0, state = OPEN"
-set state = STEP_3
+test "PINA: 0x00, state = THIRD => PORTB: 1, state = OPEN"
+set state = PRESS_Y
 setPINA 0x00
 continue 2
 expectPORTB 0x01
 expect state OPEN
 checkResult
 
+
+test "PINA: 0x80 => PORTB: 0, state = WAIT"
+set state = INIT
+setPINA 0x80
+continue 2
+expectPORTB 0x00
+expect state WAIT
+checkResult
+
+# Add tests below
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
