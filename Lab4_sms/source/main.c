@@ -17,10 +17,8 @@ int main(void) {
     DDRA = 0x00; PORTA = 0xFF;
     DDRC = 0xFF; PORTC = 0x00;
     
-    enum states {INIT, WAIT, INCREMENT, DECREMENT, RESET} state;
+    enum states {INIT, WAIT, PRESS_P, RELEASE_P, PRESS_Y, OPEN} state;
     state = INIT;
-    unsigned char tempOut = 0x00;
-    tempOut = 7;
     /* Insert your solution below */
     while (1) {
         switch(state){
@@ -28,49 +26,73 @@ int main(void) {
                 state = WAIT;
                 break;
             case WAIT:
-                if(PINA == 1){
-                    state = INCREMENT;
-                }
-                else if(PINA == 2){
-                    state = DECREMENT;
-                }
-                else if(PINA == 0){
-                    state = RESET;    
+                if(PINA == 4){
+                    state = PRESS_P;   
                 }
                 else{
-                    state = WAIT;
+                    state = WAIT;    
                 }
                 break;
-            case INCREMENT:
-                state = WAIT;
+            case PRESS_P:
+                if(PINA == 4){
+                    state = PRESS_P;   
+                }
+                else if(PINA == 0){
+                    state = RELEASE_P;    
+                }
+                else{
+                    state = WAIT;    
+                }
                 break;
-            case DECREMENT:
-                state = WAIT;
+            case RELEASE_P:
+                if(PINA == 0){
+                    state = RELEASE_P;   
+                }
+                else if(PINA == 2){
+                    state = PRESS_Y;    
+                }
+                else{
+                    state = WAIT;    
+                }
                 break;
-            case RESET:
-                state = WAIT;
+            case PRESS_Y:
+                if(PINA == 2){
+                    state = OPEN;   
+                }
+                else if(PINA == 0){
+                    state = OPEN;    
+                }
+                else{
+                    state = WAIT;    
+                }
+                break;
+            case OPEN:
+                if(PINA == 0x80){
+                    state = WAIT;
+                }
+                else{
+                    state = OPEN;
+                }
+                break;
+
         }   
         switch(state){
             case INIT:
-                tempOut = 7;
+                PORTB = 0x00;
                 break;
             case WAIT:
+                PORTB = 0x00;
                 break;
-            case RESET:
-               tempOut = 0;
+            case PRESS_P:
                 break;
-            case INCREMENT:
-                if(tempOut < 9){
-                    tempOut = tempOut + 1;
-                }
+            case RELEASE_P:
                 break;
-            case DECREMENT:
-                if(tempOut > 0){
-                    tempOut = tempOut - 1;
-                }
+            case PRESS_Y:
+                break;
+            case OPEN:
+                PORTB = 0x01;
                 break;
         }
-        PORTC = tempOut;
     }
     return 1;
 }
