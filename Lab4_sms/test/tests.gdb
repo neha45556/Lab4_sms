@@ -1,3 +1,4 @@
+ 
 # Test file for Lab4_sms
 
 
@@ -26,71 +27,54 @@
 echo ======================================================\n
 echo Running all tests..."\n\n
 
-
-test "PINA: 0x00 => PORTB: 0, state = WAIT"
-set state = INIT
-setPINA 0x00
+test "PINA: 0x01 => PORTC: 8, state = INCREMENT"
+set state = START
+setPINA 0x01
 continue 2
-expectPORTB 0
-expect state WAIT
-checkResult
-
-test "PINA: 0x00, 0x04 => PORTB: 0, state = PRESS_P"
-set state = INIT
-setPINA 0x00
-continue 2
-setPINA 0x04
-continue 2
-expectPORTB 0
-expect state PRESS_P
+expectPORTC 8
+expect state INCREMENT
 checkResult
 
 
-test "PINA: 0x00, 0x01, 0x00 => PORTB: 0, state = RELEASE_P"
-set state = INIT
+test "PINA: 0x00 => PORTC: 0, state = RESET"
+set state = START
 setPINA 0x00
 continue 2
-setPINA 0x04
-continue 2
-setPINA 0x00
-continue 2
-expectPORTB 0
-expect state RELEASE_P
+expectPORTC 0
+expect state RESET
 checkResult
 
-test "PINA: 0x01, 0x00, 0x02 => PORTB: 1, state = OPEN"
-set state = INIT
-setPINA 0x00
-continue 2
-setPINA 0x04
-continue 2
-setPINA 0x00
-continue 2
+test "PINA: 0x02 => PORTC: 0, state = DECREMENT"
+set state = START
 setPINA 0x02
 continue 2
-expectPORTB 1
-expect state OPEN
+expectPORTC 0
+expect state DECREMENT
 checkResult
 
-
-test "PINA: 0x00, state = THIRD => PORTB: 1, state = OPEN"
-set state = PRESS_Y
+test "PINA: 0x00, 0x00 => PORTC: 0, state = RESET"
+set state = START
 setPINA 0x00
 continue 2
-expectPORTB 0x01
-expect state OPEN
-checkResult
-
-
-test "PINA: 0x80 => PORTB: 0, state = WAIT"
-set state = INIT
-setPINA 0x80
+setPINA 0x00
 continue 2
-expectPORTB 0x00
-expect state WAIT
+expectPORTC 0
+expect state RESET
 checkResult
 
-# Add tests below
+test "PINA: 0x00, 001 => PORTC: 1, state = INCREMENT"
+set state = START
+setPINA 0x00
+continue 2
+setPINA 0x01
+continue 2
+expectPORTC 1
+expect state INCREMENT
+checkResult
+
+
+
+
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
